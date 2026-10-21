@@ -1,0 +1,148 @@
+{
+  "generatorVersion": "0.2.0",
+  "blueprintId": "ts-npm-playwright",
+  "blueprintVersion": "0.1.0",
+  "javaVersion": null,
+  "nodeVersion": "20",
+  "projectName": "qaff-sample-ts",
+  "packs": {
+    "qualityImpact": false,
+    "aiAgent": false,
+    "mcpToolkit": false
+  },
+  "ci": {
+    "jenkins": false,
+    "githubActions": true,
+    "azurePipelines": false,
+    "gitlabCi": false,
+    "jenkinsStrictQualityGate": false,
+    "githubActionsStrictQualityGate": false,
+    "azurePipelinesStrictQualityGate": false,
+    "gitlabCiStrictQualityGate": false,
+    "githubActionsAllureReport": true,
+    "githubActionsPagesPublish": true,
+    "qaffInstall": "./qa-framework-factory-cli-0.2.0.tgz",
+    "githubActionsNotify": true
+  },
+  "integrations": {
+    "notifications": {
+      "slack": {
+        "enabled": true,
+        "channel": "#qa-runs"
+      }
+    }
+  },
+  "failureAnalysisAi": null,
+  "apps": [
+    {
+      "id": "demo-saas",
+      "layers": [
+        "web-desktop"
+      ]
+    }
+  ],
+  "generatedBy": "qaff",
+  "deterministic": true,
+  "generatedFiles": {
+    "schema": "qaff/managed-snapshot/v1",
+    "algorithm": "sha256",
+    "files": [
+      {
+        "path": ".github/workflows/playwright.yml",
+        "sha256": "07bc75351d8712324a46922062156fdbbad6ed502b362f785a70eef164b6b50c"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "11c896d7587d216e688ca3cf30f81491e95d13e3872c89285133074f5c2cf4ac"
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "fe7cc52fb34be168cc68e00b8aaf916b978b6efbfac0afc03a97d5902a4e8626"
+      },
+      {
+        "path": "apps/demo-saas/web-desktop/fixtures/demo-saas.html",
+        "sha256": "3edfbbdda0f9ca1f31550fef7c3b9e987207af435dea69bcc28e5dccc14ec739"
+      },
+      {
+        "path": "apps/demo-saas/web-desktop/package.json",
+        "sha256": "d6975a0bb0bc6cec2bccc0db8eadea9414f122e1978690cd906bd915ff9efe6f"
+      },
+      {
+        "path": "apps/demo-saas/web-desktop/pages/DemoSaasHomePage.ts",
+        "sha256": "c0cbc5cf4de1547fb394edfe4ba9c25595ed88e70ed3ce6a1ce1ddfa2643f190"
+      },
+      {
+        "path": "apps/demo-saas/web-desktop/tests/smoke.spec.ts",
+        "sha256": "dca2a78f7cacb894879a526d46b62a7972b9ad1e310c4b364ff385874379c530"
+      },
+      {
+        "path": "apps/demo-saas/web-desktop/tsconfig.json",
+        "sha256": "975688d879e6c5db139b6a981b658ac5b267b763b49138d442eb543dbd627c48"
+      },
+      {
+        "path": "CLAUDE.md",
+        "sha256": "8abc6a6433b73628df2f0371a3fe94615ee14074c6bfa33cd215adc0996fb1c9"
+      },
+      {
+        "path": "docs/HOW_TO_USE_ALLURE.md",
+        "sha256": "253f1474a614ed46dee92c3e009c4c7bcd919ca2cf030886fe6bef394428b30b"
+      },
+      {
+        "path": "docs/notifications.md",
+        "sha256": "69713f65091f991b244d5db95f65a1fa430e98760c6b90a0808bd560d4820401"
+      },
+      {
+        "path": "framework-core/package.json",
+        "sha256": "69b200f7c6537d7121deb3f4a3184417271d1e79eb3dfe3b6bdf212cf3f2e28d"
+      },
+      {
+        "path": "framework-core/src/helpers/waitHelper.ts",
+        "sha256": "60de94ee0bb758f23e6e9d158649590d387db58219a468f3e5e773a6534f217d"
+      },
+      {
+        "path": "framework-core/src/index.ts",
+        "sha256": "0e4a6c84f31c37166d2f1b4f0daa3092c85dd2ed4516fc7463ad98b7a3872339"
+      },
+      {
+        "path": "framework-core/tsconfig.json",
+        "sha256": "70048616b1ffca136e61a5687db53b61b36d2493bfd0aab32406bf02db0b1535"
+      },
+      {
+        "path": "framework-web/package.json",
+        "sha256": "6516f60f0263318b5a098e63a41d2828774670d5e690532465816318ad27ed88"
+      },
+      {
+        "path": "framework-web/src/BasePage.ts",
+        "sha256": "4c75c0697d597c893d2e9e4b6e3cc8397c720002bb82dd473c606306926b2169"
+      },
+      {
+        "path": "framework-web/src/index.ts",
+        "sha256": "e0be62fa6e8e61f8e6fca7064ca69babcd1b3dcbcf8983cad6d8d0f643c7c5c3"
+      },
+      {
+        "path": "framework-web/src/PageComponent.ts",
+        "sha256": "0ec15d8f76b4628738e054622795ea5d6b84085ebb172705e84e1eb02553a152"
+      },
+      {
+        "path": "framework-web/tsconfig.json",
+        "sha256": "be40488ff29389cc61f905aa230429f3e2c8d78896dfee4559156b06451b5a68"
+      },
+      {
+        "path": "package.json",
+        "sha256": "a46d7c514e288eb3faf1b5ce71088606eba838e121f904974a82796cf0562c36"
+      },
+      {
+        "path": "playwright.config.ts",
+        "sha256": "0ccbbf84ed20f06905495bccfaa0b33752d749c1caa2c606cf16dfc9069578f3"
+      },
+      {
+        "path": "README.md",
+        "sha256": "784549d04683f152cf2efc5e16e433d090d7b9eaff0f5308f5ba9b754d080afe"
+      },
+      {
+        "path": "tsconfig.json",
+        "sha256": "f154cf1606abff68eb294055f3be25de2e656a7cb72ead72d16410bb11d5a0c2"
+      }
+    ]
+  }
+}

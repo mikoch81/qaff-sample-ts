@@ -1,0 +1,25 @@
+# Node
+node_modules/
+
+# TypeScript build output
+dist/
+*.tsbuildinfo
+
+# Playwright
+playwright-report/
+test-results/
+
+# Allure raw results (allure-playwright)
+allure-results/
+
+# Allure HTML report (npm run allure:report)
+allure-report/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
