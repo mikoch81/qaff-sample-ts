@@ -1,0 +1,117 @@
+# Opt-in Allure report publish (ci.githubActions.pagesPublish): the pages job deploys to GitHub Pages on main only.
+# Opt-in run notification (ci.githubActions.notify): reads the repository secret(s) SLACK_WEBHOOK_URL.
+name: Playwright Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+      # Once you commit a package-lock.json, switch to 'npm ci' and add
+      # "cache: npm" to setup-node above for faster, reproducible installs.
+      - name: Install dependencies
+        run: npm install
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('package.json') }}
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npm test
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+      # Traces (trace: on-first-retry) land in test-results/ — the single most
+      # useful artifact when debugging a flaky failure.
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 30
+          if-no-files-found: ignore
+      # Allure HTML report (ci.githubActions.allureReport), built even when tests fail.
+      - name: Build Allure HTML report
+        if: always()
+        run: npm run allure:report || echo "Allure report generation failed - see the log above."
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30
+          if-no-files-found: ignore
+
+      # Opt-in run notification (ci.githubActions.notify): one message per
+      # provider via qaff notify-run. Never changes the job result.
+      - name: Notify run result (Slack)
+        if: always()
+        env:
+          QAFF_JOB_STATUS: ${{ job.status }}
+          QAFF_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ "$QAFF_JOB_STATUS" = "success" ]; then QAFF_RUN_STATUS=success; else QAFF_RUN_STATUS=failure; fi
+          export PATH="$HOME/.qaff/node/bin:$HOME/.qaff/bin:$PATH"
+          if ! command -v qaff >/dev/null 2>&1; then
+            if ! command -v npm >/dev/null 2>&1; then
+              mkdir -p "$HOME/.qaff/node"
+              curl -fsSL https://nodejs.org/dist/v24.21.0/node-v24.21.0-linux-x64.tar.gz | tar -xz -C "$HOME/.qaff/node" --strip-components=1
+            fi
+            npm install -g --prefix "$HOME/.qaff" ./qa-framework-factory-cli-0.4.0.tgz
+          fi
+          if ! command -v qaff >/dev/null 2>&1; then
+            echo "qaff CLI not found on PATH — skipping the run notification. Install qaff (or set ci.qaffInstall) to enable it."
+            exit 0
+          fi
+          qaff notify-run --project . --provider slack --status "$QAFF_RUN_STATUS" ${QAFF_RUN_URL:+--run-url "$QAFF_RUN_URL"} --mode live --force --json || echo "Slack notification failed — the build result is unchanged."
+
+  # Opt-in Allure report publish (ci.githubActions.pagesPublish). Runs on main
+  # only — also after failed tests, so a red build still publishes its report.
+  # Only this job gets the Pages permissions; test keeps the default token permissions.
+  pages:
+    name: Publish Allure report to GitHub Pages
+    needs: test
+    if: ${{ always() && github.ref == 'refs/heads/main' && needs.test.result != 'cancelled' && needs.test.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download Allure HTML report
+        uses: actions/download-artifact@v8
+        with:
+          name: allure-report
+          path: site
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

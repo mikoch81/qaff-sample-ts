@@ -21,7 +21,7 @@
     "gitlabCiStrictQualityGate": false,
     "githubActionsAllureReport": true,
     "githubActionsPagesPublish": true,
-    "qaffInstall": "./qa-framework-factory-cli-0.2.0.tgz",
+    "qaffInstall": "./qa-framework-factory-cli-0.4.0.tgz",
     "githubActionsNotify": true
   },
   "integrations": {
@@ -49,7 +49,7 @@
     "files": [
       {
         "path": ".github/workflows/playwright.yml",
-        "sha256": "07bc75351d8712324a46922062156fdbbad6ed502b362f785a70eef164b6b50c"
+        "sha256": "aab3c28f1aa19fbfab60356f2b717a2d7ae59fa254c4318e660b6166a8705ce5"
       },
       {
         "path": ".gitignore",
