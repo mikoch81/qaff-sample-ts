@@ -48,6 +48,10 @@
     "algorithm": "sha256",
     "files": [
       {
+        "path": ".gitattributes",
+        "sha256": "52e87240f800e3270f39dcb05c18dc5fef71e5a004ec8ca469ca09935c51201d"
+      },
+      {
         "path": ".github/workflows/playwright.yml",
         "sha256": "aab3c28f1aa19fbfab60356f2b717a2d7ae59fa254c4318e660b6166a8705ce5"
       },
